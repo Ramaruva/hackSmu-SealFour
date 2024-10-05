@@ -9,6 +9,7 @@ import FitnessTracker from './assets/Components/FitnessTracker';
 import TelemedicinePage from './assets/Components/Telemedicine';
 import PeerSupportPage from './assets/Components/PeerSupport';
 import ContactPage from './assets/Components/Contactus';
+import Chatbot from './assets/Components/Chatbot';
 
 const App = () => {
   return (
@@ -25,8 +26,8 @@ const App = () => {
           <Route path="/peer-support" element={<PeerSupportPage/>} />
           <Route path="/signup" element={<Signup />} />  
           <Route path="/signin" element={<Signin />} />  
-          
           <Route path="/contact" element={<ContactPage/>} />
+          <Route path="/chatbot" element={<Chatbot />} />
         </Routes>
       </div>
     </Router>

@@ -5,10 +5,10 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="bg-gray-800 p-4 shadow-lg">
+    <nav className="bg-gray-900 p-4 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
-        <Link to="/" className="text-white text-3xl font-bold hover:text-gray-300 transition duration-300">
+        <Link to="/" className="text-white text-3xl font-extrabold hover:text-gray-400 transition duration-300">
           Health & Wellness
         </Link>
 
@@ -69,7 +69,7 @@ const Navbar = () => {
           </li>
           <li>
             <Link 
-              className="bg-blue-600 text-white px-4 py-1 rounded-md hover:bg-blue-700 transition duration-300" 
+              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300" 
               to="/signin"
             >
               Sign In
