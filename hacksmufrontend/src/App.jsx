@@ -1,7 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './assets/Components/Navbar';
-import HomePage from './assets/Components/Homepage'
+import HomePage from './assets/Components/Homepage';
+import Signup from './assets/Components/Signup';   
+import Signin from './assets/Components/Signin';   
+import MentalHealth from './assets/Components/Mentalhealth'; 
+import FitnessTracker from './assets/Components/FitnessTracker';
+import TelemedicinePage from './assets/Components/Telemedicine';
 
 const App = () => {
   return (
@@ -10,12 +15,15 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          {/* Add your routes for the rest of the components like Mental Health, Fitness, etc. */}
-          <Route path="/mental-health" element={<div>Mental Health Component</div>} />
-          <Route path="/fitness-tracker" element={<div>Fitness Tracker Component</div>} />
-          <Route path="/telemedicine" element={<div>Telemedicine Component</div>} />
+          
+          
+          <Route path="/mental-health" element={<MentalHealth />} />  
+          <Route path="/fitness-tracker" element={<FitnessTracker />} />
+          <Route path="/telemedicine" element={<TelemedicinePage/>} />
           <Route path="/peer-support" element={<div>Peer Support Component</div>} />
-          <Route path="/signup" element={<div>Sign Up Component</div>} />
+          <Route path="/signup" element={<Signup />} />  
+          <Route path="/signin" element={<Signin />} />  
+          
           <Route path="/contact" element={<div>Contact Component</div>} />
         </Routes>
       </div>

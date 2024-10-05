@@ -39,7 +39,11 @@ const Navbar = () => {
           <li><Link className="text-gray-300 hover:text-white" to="/fitness-tracker">Fitness Tracker</Link></li>
           <li><Link className="text-gray-300 hover:text-white" to="/telemedicine">Telemedicine</Link></li>
           <li><Link className="text-gray-300 hover:text-white" to="/peer-support">Peer Support</Link></li>
-          <li><Link className="text-gray-300 hover:text-white" to="/signup">Sign Up</Link></li>
+
+          {/* Updated Sign In link */}
+          <li><Link className="text-blue-500 hover:text-white" to="/signin">Sign In</Link></li>
+
+          {/* Additional links */}
           <li><Link className="text-gray-300 hover:text-white" to="/contact">Contact</Link></li>
         </ul>
       </div>
