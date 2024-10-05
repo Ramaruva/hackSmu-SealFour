@@ -5,10 +5,10 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="bg-gray-800 p-4">
+    <nav className="bg-gray-800 p-4 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
-        <Link to="/" className="text-white text-2xl font-bold">
+        <Link to="/" className="text-white text-3xl font-bold hover:text-gray-300 transition duration-300">
           Health & Wellness
         </Link>
 
@@ -34,17 +34,55 @@ const Navbar = () => {
         </button>
 
         {/* Links */}
-        <ul className={`lg:flex lg:space-x-6 ${isOpen ? 'block' : 'hidden'} lg:block`}>
-          <li><Link className="text-gray-300 hover:text-white" to="/mental-health">Mental Health</Link></li>
-          <li><Link className="text-gray-300 hover:text-white" to="/fitness-tracker">Fitness Tracker</Link></li>
-          <li><Link className="text-gray-300 hover:text-white" to="/telemedicine">Telemedicine</Link></li>
-          <li><Link className="text-gray-300 hover:text-white" to="/peer-support">Peer Support</Link></li>
-
-          {/* Updated Sign In link */}
-          <li><Link className="text-blue-500 hover:text-white" to="/signin">Sign In</Link></li>
-
-          {/* Additional links */}
-          <li><Link className="text-gray-300 hover:text-white" to="/contact">Contact</Link></li>
+        <ul className={`lg:flex lg:space-x-8 text-lg font-medium ${isOpen ? 'block' : 'hidden'} lg:block`}>
+          <li>
+            <Link 
+              className="text-gray-300 hover:text-white transition duration-300 relative after:absolute after:bg-white after:h-0.5 after:w-full after:bottom-0 after:left-0 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300" 
+              to="/mental-health"
+            >
+              Mental Health
+            </Link>
+          </li>
+          <li>
+            <Link 
+              className="text-gray-300 hover:text-white transition duration-300 relative after:absolute after:bg-white after:h-0.5 after:w-full after:bottom-0 after:left-0 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300" 
+              to="/fitness-tracker"
+            >
+              Fitness Tracker
+            </Link>
+          </li>
+          <li>
+            <Link 
+              className="text-gray-300 hover:text-white transition duration-300 relative after:absolute after:bg-white after:h-0.5 after:w-full after:bottom-0 after:left-0 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300" 
+              to="/telemedicine"
+            >
+              Telemedicine
+            </Link>
+          </li>
+          <li>
+            <Link 
+              className="text-gray-300 hover:text-white transition duration-300 relative after:absolute after:bg-white after:h-0.5 after:w-full after:bottom-0 after:left-0 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300" 
+              to="/peer-support"
+            >
+              Peer Support
+            </Link>
+          </li>
+          <li>
+            <Link 
+              className="bg-blue-600 text-white px-4 py-1 rounded-md hover:bg-blue-700 transition duration-300" 
+              to="/signin"
+            >
+              Sign In
+            </Link>
+          </li>
+          <li>
+            <Link 
+              className="text-gray-300 hover:text-white transition duration-300 relative after:absolute after:bg-white after:h-0.5 after:w-full after:bottom-0 after:left-0 after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-300" 
+              to="/contact"
+            >
+              Contact
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>
