@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Chatbot from '../images/chatbot.png'
 import axios from 'axios';
 
 const Chatbot = () => {
