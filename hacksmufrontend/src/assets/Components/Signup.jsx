@@ -5,16 +5,23 @@ const Signup = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('user');  // Default role as 'user'
+  const [specialty, setSpecialty] = useState('');  // For doctors
 
   const handleSignup = (e) => {
     e.preventDefault();
-    console.log('Signup Data:', { name, email, password });
+    const signupData = { name, email, password, role, specialty: role === 'doctor' ? specialty : '' };
+    console.log('Signup Data:', signupData);
+
+    // Send signupData to your backend API to handle the registration
   };
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
       <form className="bg-white p-8 shadow-lg rounded-lg max-w-md w-full" onSubmit={handleSignup}>
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+        
+        {/* Name */}
         <div className="mb-4">
           <label className="block mb-2 text-sm text-gray-600">Name</label>
           <input
@@ -26,6 +33,8 @@ const Signup = () => {
             required
           />
         </div>
+
+        {/* Email */}
         <div className="mb-4">
           <label className="block mb-2 text-sm text-gray-600">Email</label>
           <input
@@ -37,6 +46,8 @@ const Signup = () => {
             required
           />
         </div>
+
+        {/* Password */}
         <div className="mb-4">
           <label className="block mb-2 text-sm text-gray-600">Password</label>
           <input
@@ -48,6 +59,35 @@ const Signup = () => {
             required
           />
         </div>
+
+        {/* Role Selection */}
+        <div className="mb-4">
+          <label className="block mb-2 text-sm text-gray-600">Signup as</label>
+          <select 
+            className="w-full p-2 border border-gray-300 rounded-md"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          >
+            <option value="user">User</option>
+            <option value="doctor">Doctor</option>
+          </select>
+        </div>
+
+        {/* Specialty for Doctor */}
+        {role === 'doctor' && (
+          <div className="mb-4">
+            <label className="block mb-2 text-sm text-gray-600">Specialty</label>
+            <input
+              type="text"
+              className="w-full p-2 border border-gray-300 rounded-md"
+              value={specialty}
+              onChange={(e) => setSpecialty(e.target.value)}
+              placeholder="Enter your specialty (e.g., Mental Health)"
+            />
+          </div>
+        )}
+
+        {/* Submit Button */}
         <button
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
