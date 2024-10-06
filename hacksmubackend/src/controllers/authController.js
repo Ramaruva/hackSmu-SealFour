@@ -30,9 +30,10 @@ const register = async (req, res) => {
       role: role,
     });
     await newUser.save();
+    console.log(newUser,"newUser");
     if (role == "doctor") {
       const newDoctor = new Doctor({
-        doctorId: newUser.userId,
+        doctorId: newUser._id,
         specialty: req.body?.specialty,
       });
       await newDoctor.save();
@@ -44,7 +45,7 @@ const register = async (req, res) => {
         expiresIn: "1h",
       }
     );
-    res.status(201).json({ token, role: newUser.role });
+    res.status(201).json({ token, newUser });
   } catch (error) {
     console.log(error);
     res.status(500).send("Server error");

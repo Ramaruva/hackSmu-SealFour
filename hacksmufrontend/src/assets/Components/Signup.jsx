@@ -8,38 +8,26 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("user"); // Default role as 'user'
+  const [role, setRole] = useState("student"); // Default role as 'user'
   const [specialty, setSpecialty] = useState(""); // For doctors
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    if (role == "user") {
-      const postData = {
-        name,
-        email,
-        password,
-        role: "student",
-      };
-      try {
-        const data = await postRequest("auth/signup", postData);
-        const token = data?.data?.token;
-        setLocalItem("token", { token });
-        setLocalItem('username', {name}); 
-        navigate("/");
-      } catch (error) {
-        alert("Something went wrong please try again!");
+    try {
+      const postData ={
+         name,email,role,password,specialty
       }
-    } else {
+      const data = await postRequest("auth/signup", postData);
+      const token = data?.data?.token;
+      const userDetails = data?.data?.newUser;
+      setLocalItem("token", { token });
+      setLocalItem("username", { name });
+      setLocalItem("userdetails", userDetails);
+      navigate("/");
+    } catch (error) {
+      alert("Something went wrong please try again!");
     }
-    const signupData = {
-      name,
-      email,
-      password,
-      role,
-      specialty: role === "doctor" ? specialty : "",
-    };
-    console.log("Signup Data:", signupData);
 
     // Send signupData to your backend API to handle the registration
   };
@@ -99,7 +87,7 @@ const Signup = () => {
             value={role}
             onChange={(e) => setRole(e.target.value)}
           >
-            <option value="user">User</option>
+            <option value="student">Student</option>
             <option value="doctor">Doctor</option>
           </select>
         </div>

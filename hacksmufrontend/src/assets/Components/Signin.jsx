@@ -1,23 +1,38 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { postRequest } from '../../api/axiosInstance';
+import { setLocalItem } from '../../localStorage';
 
 const Signin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('user');  // New Role selection state
+  const [role, setRole] = useState('student');  // New Role selection state
   const navigate = useNavigate();
 
-  const handleSignin = (e) => {
+  const handleSignin = async (e) => {
     e.preventDefault();
     const signinData = { email, password, role };
     console.log('Signin Data:', signinData);
+    try {
+      const data = await postRequest("auth/signin",signinData);
+      const token = data?.data?.token;
+      const userDetails = data?.data?.userData;
+      const username = userDetails?.name;
+      setLocalItem("token", { token });
+      setLocalItem("username", { name:username });
+      setLocalItem("userdetails", userDetails);
+      navigate("/");
+    } catch (error) {
+       console.log(error);
+    }
+   
 
     // Mock authentication for demonstration
-    if (role === 'doctor') {
-      navigate('/doctor-dashboard');  // Redirect to Doctor Dashboard with appointments
-    } else {
-      navigate('/user-dashboard');  // Redirect to User Dashboard
-    }
+    // if (role === 'doctor') {
+    //   navigate('/doctor-dashboard');  // Redirect to Doctor Dashboard with appointments
+    // } else {
+    //   navigate('/user-dashboard');  // Redirect to User Dashboard
+    // }
   };
 
   return (
@@ -59,7 +74,7 @@ const Signin = () => {
             value={role}
             onChange={(e) => setRole(e.target.value)}
           >
-            <option value="user">User</option>
+            <option value="student">student</option>
             <option value="doctor">Doctor</option>
           </select>
         </div>
