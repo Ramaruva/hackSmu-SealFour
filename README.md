@@ -8,7 +8,7 @@ Welcome to the **SMU Health & Wellness Platform**, developed for the SMU Hackath
 - [Project Structure](#project-structure)
 - [Technologies Used](#technologies-used)
 - [Contributors](#contributors)
--  [Setup and Installation](#setup-and-installation)
+- [Setup and Installation](#setup-and-installation)
 - [Usage](#usage)
 
 ## Features
@@ -31,7 +31,7 @@ The project utilizes the following technologies:
 - **Backend**:
   - Node.js: JavaScript runtime built on Chrome's V8 engine.
   - Express.js: Web application framework for Node.js.
-  - MongoDB: NoSQL database used for storing data.
+  - MongoDB: NoSQL database is used to store data.
 
 - **Real-Time Communication**:
   - WebRTC: Technology for real-time peer-to-peer communication between users for video/audio calls.
@@ -57,6 +57,45 @@ The platform offers the following key features:
 - **Peer Support**: Students can book peer support sessions with mentors or experts to help with emotional and mental challenges.
 - **Real-Time Video Calls**: Video chat functionality between students and professionals via WebRTC.
 - **Real-Time Notifications**: Get notified when a peer mentor or doctor initiates a video call, allowing users to accept or decline.
+## Setup and Installation
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- **Node.js**: [Install Node.js here](https://nodejs.org)
+- **MongoDB**: [Install MongoDB here](https://www.mongodb.com)
+- **npm**: Installed with Node.js for managing dependencies.
+
+### Installation Steps
+
+1. **Clone the Repository:**
+
+   ```bash
+   git clone https://github.com/yourusername/health-wellness-platform.git
+   cd health-wellness-platform
+## Usage
+
+### Peer Support Booking
+
+- Browse available peer mentors and doctors.
+- Select a peer mentor, choose an available date, and book a session based on time slots.
+- Once a session is confirmed, students can access the video chat feature to join a video call with their mentor/doctor at the scheduled time.
+
+### Video Calls with WebRTC
+
+- Real-time video calls between students and mentors/doctors using WebRTC.
+- When a call is initiated, notifications will appear, allowing the recipient to accept or decline the call.
+- WebRTC and Peer.js are used for the video connection, while Socket.io handles the real-time notifications.
+
+### Fitness Tracker
+
+- The fitness tracker allows students to input and track daily activities, set fitness goals, and monitor their progress.
+
+### Telemedicine
+
+- Students can book telemedicine consultations with a doctor for serious concerns, facilitated through the video call feature.
+
 
 ## Project Structure
 
