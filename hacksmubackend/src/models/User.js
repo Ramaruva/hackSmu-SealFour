@@ -6,19 +6,6 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: { type: String, enum: ['student', 'consultant'], required: true },  // student or doctor
-  profile: {
-    age: Number,
-    gender: String,
-    phone: String,
-    address: {
-      street: String,
-      city: String,
-      state: String,
-      zip: String,
-    },
-    bio: String,
-    specialty: String,  // For consultants (doctors)
-  },
   createdAt: { type: Date, default: Date.now },
 });
 

@@ -1,52 +1,65 @@
 const propelAuth = require("@propelauth/express");
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const auth = propelAuth.initAuth({
   authUrl: process.env.AUTH_URL,
   apiKey: process.env.API_KEY,
 });
 
-console.log(auth)
-// Sign Up
-const signup = async (req, res) => {
-  const { email, password, name } = req.body;
+//register
+const register = async (req, res) => {
+  const { name, email, password, role } = req.body;
+
   try {
-    const user = await auth.createUser({ email, password, name });
-    const hashedPassword = await bcrypt.hash(password, 12);
-
+    let userdb = await User.findOne({ email });
+    if (userdb) {
+      return res.status(400).json({ msg: "User already exists" });
+    }
+    const user = await auth.createUser({ name, email, password, role });
+    console.log(user,"hs")
     const newUser = new User({
-      email: user.email,
-      password: hashedPassword,
+      email: email,
+      password: password,
       userId: user.userId,
-      name: user.name,
+      name: name,
+      role:role
     });
-
     await newUser.save();
-    res.status(201).json({ message: "User signed up", user });
+    const token = jwt.sign({ userId: newUser._id, role: newUser.role }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
+    res.status(201).json({ token, role: newUser.role });
   } catch (error) {
-    res.status(500).json({ message: "Error signing up", error });
+    console.log(error);
+    res.status(500).send("Server error");
   }
 };
+
 
 // Sign In
 const signin = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await auth.authenticateUser({ email, password });
 
-    const dbUser = await User.findOne({ userId: user.userId });
+    const dbUser = await User.findOne({ email: email });
     if (!dbUser) return res.status(400).json({ message: "User not found" });
 
     const isPasswordCorrect = await bcrypt.compare(password, dbUser.password);
-    if (!isPasswordCorrect) return res.status(400).json({ message: "Invalid credentials" });
+    if (!isPasswordCorrect)
+      return res.status(400).json({ message: "Invalid credentials" });
 
-    const token = jwt.sign({ userId: dbUser.userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: dbUser.userId }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
     res.status(200).json({ token, userId: dbUser.userId });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: "Error signing in", error });
   }
 };
 
-module.exports = { signup, signin };
+module.exports = { register, signin };
