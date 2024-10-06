@@ -11,6 +11,7 @@ const socketIo = require("socket.io");
 
 dotenv.config();
 connectDB();
+const connectedUsers = {};
 
 const app = express();
 app.use(cors());
@@ -22,38 +23,41 @@ app.use("/api/auth", authRoutes);
 app.use("/api", docRoutes);
 
 // Socket.IO connection handling for signaling
-io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
 
-  // Handling 'offer' sent by student
-  socket.on("offer", (data) => {
-    console.log("Offer received:", data);
-    socket.to(data.receiverId).emit("offer", data);
+io.on('connection', (socket) => {
+  console.log('A user connected:', socket.id);
+
+  // Register user with their userId when they join
+  socket.on('register', (userId) => {
+    connectedUsers[userId] = socket.id;
+    console.log(`User registered with ID: ${userId} and Socket ID: ${socket.id}`);
   });
 
-  // Handling 'answer' sent by doctor
-  socket.on("answer", (data) => {
-    console.log("Answer received:", data);
-    socket.to(data.receiverId).emit("answer", data);
+  // Handle call initiation
+  socket.on('call-user', ({ from, to }) => {
+    console.log(`Call from ${from} to ${to}`);
+    if (connectedUsers[to]) {
+      // Notify the specific user
+      io.to(connectedUsers[to]).emit('incoming-call', { from });
+    }
   });
 
-  // Handling ICE candidates from both parties
-  socket.on("ice-candidate", (data) => {
-    console.log("ICE Candidate:", data);
-    socket.to(data.receiverId).emit("ice-candidate", data);
-  });
-  socket.on("send-ice-candidate", (data) => {
-    socket.to(data.id).emit("receive-ice-candidate", data.candidate);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("A user disconnected:", socket.id);
+  // Handle user disconnect
+  socket.on('disconnect', () => {
+    console.log('A user disconnected:', socket.id);
+    for (let userId in connectedUsers) {
+      if (connectedUsers[userId] === socket.id) {
+        delete connectedUsers[userId];
+        break;
+      }
+    }
   });
 });
 
 server.listen(3001, () => {
-  console.log("Signaling server listening on port 3001");
+  console.log('Server running on port 3000');
 });
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Peer from 'peerjs';
 
-const VideoChat = ({ peerIdToCall ,setStartVideoCall}) => {
+const VideoChat = ({ peerIdToCall, setStartVideoCall }) => {
   const [peer, setPeer] = useState(null);
   const [callActive, setCallActive] = useState(false);
-  const [callEnded, setCallEnded] = useState(false); // New state to handle call end
+  const [callEnded, setCallEnded] = useState(false);
   const myVideoRef = useRef(null);
   const remoteVideoRef = useRef(null);
 
   useEffect(() => {
-    const newPeer = new Peer(); // create a new peer connection
+    const newPeer = new Peer(); // Create a new peer instance
     setPeer(newPeer);
 
     newPeer.on('open', (id) => {
@@ -35,6 +35,8 @@ const VideoChat = ({ peerIdToCall ,setStartVideoCall}) => {
   }, []);
 
   const startCall = () => {
+    if (!peerIdToCall) return;
+
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((stream) => {
