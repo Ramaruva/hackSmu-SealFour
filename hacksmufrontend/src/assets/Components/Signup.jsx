@@ -1,26 +1,57 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { postRequest } from "../../api/axiosInstance";
+import { setLocalItem } from "../../localStorage";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('user');  // Default role as 'user'
-  const [specialty, setSpecialty] = useState('');  // For doctors
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("user"); // Default role as 'user'
+  const [specialty, setSpecialty] = useState(""); // For doctors
+  const navigate = useNavigate();
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    const signupData = { name, email, password, role, specialty: role === 'doctor' ? specialty : '' };
-    console.log('Signup Data:', signupData);
+    if (role == "user") {
+      const postData = {
+        name,
+        email,
+        password,
+        role: "student",
+      };
+      try {
+        const data = await postRequest("auth/signup", postData);
+        const token = data?.data?.token;
+        setLocalItem("token", { token });
+        setLocalItem('username', {name}); 
+        navigate("/");
+      } catch (error) {
+        alert("Something went wrong please try again!");
+      }
+    } else {
+    }
+    const signupData = {
+      name,
+      email,
+      password,
+      role,
+      specialty: role === "doctor" ? specialty : "",
+    };
+    console.log("Signup Data:", signupData);
 
     // Send signupData to your backend API to handle the registration
   };
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
-      <form className="bg-white p-8 shadow-lg rounded-lg max-w-md w-full" onSubmit={handleSignup}>
+      <form
+        className="bg-white p-8 shadow-lg rounded-lg max-w-md w-full"
+        onSubmit={handleSignup}
+      >
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
-        
+
         {/* Name */}
         <div className="mb-4">
           <label className="block mb-2 text-sm text-gray-600">Name</label>
@@ -63,7 +94,7 @@ const Signup = () => {
         {/* Role Selection */}
         <div className="mb-4">
           <label className="block mb-2 text-sm text-gray-600">Signup as</label>
-          <select 
+          <select
             className="w-full p-2 border border-gray-300 rounded-md"
             value={role}
             onChange={(e) => setRole(e.target.value)}
@@ -74,9 +105,11 @@ const Signup = () => {
         </div>
 
         {/* Specialty for Doctor */}
-        {role === 'doctor' && (
+        {role === "doctor" && (
           <div className="mb-4">
-            <label className="block mb-2 text-sm text-gray-600">Specialty</label>
+            <label className="block mb-2 text-sm text-gray-600">
+              Specialty
+            </label>
             <input
               type="text"
               className="w-full p-2 border border-gray-300 rounded-md"
@@ -97,7 +130,7 @@ const Signup = () => {
 
         {/* Link to Sign In Page */}
         <p className="mt-4 text-sm text-center">
-          Already have an account?{' '}
+          Already have an account?{" "}
           <Link to="/signin" className="text-blue-600 hover:underline">
             Sign in here
           </Link>

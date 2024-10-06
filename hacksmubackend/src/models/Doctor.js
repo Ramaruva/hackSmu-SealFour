@@ -7,7 +7,7 @@ const DoctorSchema = new mongoose.Schema({
   // Availability Schema
   availability: [
     {
-      day: { type: String, required: true },  // Example: "Monday", "Tuesday"
+      day: { type: String },  // Example: "Monday", "Tuesday"
       slots: [
         {
           startTime: { type: String, required: true },  // Example: "09:00 AM"
@@ -20,7 +20,7 @@ const DoctorSchema = new mongoose.Schema({
   // Unavailability Schema (for blocking out unavailable time)
   unavailability: [
     {
-      date: { type: Date, required: true },  // Specific date doctor is unavailable
+      date: { type: Date },  // Specific date doctor is unavailable
       reason: { type: String },  // Optional reason (vacation, emergency, etc.)
       slots: [
         {
