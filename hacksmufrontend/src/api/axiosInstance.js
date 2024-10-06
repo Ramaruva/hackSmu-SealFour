@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getLocalItem } from "../localStorage";
 
 const baseURL = "http://localhost:5000/api"; // Your backend base URL
 
@@ -12,9 +13,9 @@ const axiosInstance = axios.create({
 // Optional: Add a request interceptor to add the token to the headers if it exists in localStorage
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = getLocalItem("token");
     if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+      config.headers["Authorization"] = `Bearer ${token?.token}`;
     }
     return config;
   },
@@ -24,7 +25,7 @@ axiosInstance.interceptors.request.use(
 );
 
 export function getRequest(URL) {
-  return axiosClient.get(`/${URL}`).then((response) => response);
+  return axiosInstance.get(`/${URL}`).then((response) => response);
 }
 
 export function postRequest(URL, payload) {
