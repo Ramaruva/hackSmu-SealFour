@@ -1,17 +1,26 @@
-// src/middleware/authMiddleware.js
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+const { requireAuth } = require('@propelauth/express');
+dotenv.config();
 
-const requireAuth = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
-  if (!token) return res.status(401).json({ message: "No token, authorization denied" });
+module.exports = async (req, res, next) => {
+  const token = req.header('x-auth-token');
+
+  if (!token) {
+    return res.status(401).json({ msg: 'No token, authorization denied' });
+  }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+    req.user = decoded.userId;
+    req.role = decoded.role;
     next();
-  } catch (error) {
-    res.status(401).json({ message: "Invalid token" });
+  } catch (err) {
+    return res.status(401).json({ msg: 'Invalid token' });
   }
 };
 
-module.exports = { requireAuth };
+// Also include the PropelAuth middleware for advanced usage
+exports.propelAuthMiddleware = requireAuth({
+  authUrl: process.env.PROPEL_AUTH_URL,
+});
