@@ -7,11 +7,12 @@ const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
+  const location = useLocation(); 
+
 
   const checkAuth = () => {
     const token = getLocalItem("token");
     const user = getLocalItem("username"); // Get the user's name from localStorage
-    const location = useLocation(); 
     console.log(token,"token");
     console.log(user,"user");
 
@@ -33,7 +34,7 @@ const Navbar = () => {
     return () => {
       window.removeEventListener("storage", checkAuth);
     };
-  }, [location.pathname]);
+  }, [location?.pathname]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
