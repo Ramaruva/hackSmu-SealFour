@@ -4,8 +4,9 @@ import "react-calendar/dist/Calendar.css";
 import { format } from "date-fns";
 import { getRequest } from "../../api/axiosInstance";
 import VideoChat from './VideoChat';  // Import VideoChat Component
+import { getLocalItem } from "../../localStorage";
 
-const PeerSupportPage = () => {
+const PeerSupportPage = ({socket,peerId}) => {
   const [selectedExpert, setSelectedExpert] = useState(null);
   const [expertsData, setExpertsData] = useState();
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -46,6 +47,14 @@ const PeerSupportPage = () => {
     }
   };
 
+  const initateCall =()=>{
+    const userData = getLocalItem("userdetails");
+    const userid = userData?._id;
+    if(userid&&selectedExpert){
+        socket.emit('callUser', { fromUserId: userid, toUserId:  selectedExpert.userId }); 
+        setStartVideoCall(true);
+    }
+  }
   return (
     <div className="min-h-screen bg-gray-100 py-8">
       <div className="container mx-auto px-4">
@@ -124,14 +133,14 @@ const PeerSupportPage = () => {
               {/* Start Video Call Button */}
               <button
                 className="bg-blue-600 text-white px-6 py-2 mt-4 ml-10 rounded-md hover:bg-blue-700 transition duration-200"
-                onClick={() => setStartVideoCall(true)}
+                onClick={initateCall}
               >
                 Start Video Call
               </button>
 
               {/* Render VideoChat component if video call is started */}
               {startVideoCall && (
-                <VideoChat peerIdToCall={selectedExpert.peerId} setStartVideoCall={setStartVideoCall} />
+                <VideoChat peerIdToCall={peerId} setStartVideoCall={setStartVideoCall} />
               )}
             </div>
           </div>
