@@ -43,9 +43,9 @@ The project utilizes the following technologies:
 
 ## Contributors
 
-- **[Your Name](https://github.com/yourusername)**: Project Lead, Frontend & Backend Developer
-- **[Contributor 2](https://github.com/contributor2)**: Peer Support Video Call Integration
-- **[Contributor 3](https://github.com/contributor3)**: Fitness Tracker & Telemedicine Features
+- **[Sai Preetham Dongari](https://github.com/preethamdnr)**:  Frontend & Backend Developer
+- **[Rama Krishna Aruva](https://github.com/Ramaruva)**: Frontend & Backend Developer 
+
 
 ## Features
 
