@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getLocalItem } from "../localStorage";
 
-const baseURL = "http://localhost:5000/api"; // Your backend base URL
+const baseURL = "http://localhost:3001/api"; // Your backend base URL
 
 const axiosInstance = axios.create({
   baseURL: baseURL,
